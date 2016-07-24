@@ -1,2 +1,5 @@
 Writing my own web framework
-\n How to run : \n Open terminal and type the following command\n python wsgiserver wsgiapplication:application\n
+How to run
+	Open terminal and type the following command
+	
+	python wsgiserver wsgiapplication:myapp

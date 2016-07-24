@@ -32,7 +32,7 @@ class wsgiapp:
         return self.notfound()
 
         
-class application(wsgiapp):
+class myyapp(wsgiapp):
     urls = [
         ("/", "index"),
         ("/hello/(.*)", "hello"),
