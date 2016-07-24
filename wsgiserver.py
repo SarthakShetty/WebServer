@@ -1,6 +1,9 @@
 # Tested with Python 2.7.9, Linux & Mac OS X
 import socket
-import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 import sys
 import datetime
 
@@ -64,7 +67,7 @@ class WSGIServer(object):
 
     def parse_request(self, text):
         request_line = text.splitlines()[0]
-        request_line = request_line.rstrip('\r\n')
+        request_line = request_line.decode('utf-8').rstrip('\r\n')
         # Break down the request line into components
         (self.request_method,  # GET
          self.path,            # /hello
@@ -80,7 +83,7 @@ class WSGIServer(object):
         # Required WSGI variables
         env['wsgi.version']      = (1, 0)
         env['wsgi.url_scheme']   = 'http'
-        env['wsgi.input']        = StringIO.StringIO(self.request_data)
+        env['wsgi.input']        = str(self.request_data)
         env['wsgi.errors']       = sys.stderr
         env['wsgi.multithread']  = False
         env['wsgi.multiprocess'] = False
@@ -118,7 +121,7 @@ class WSGIServer(object):
                 '> {line}\n'.format(line=line)
                 for line in response.splitlines()
             ))
-            self.client_connection.sendall(response)
+            self.client_connection.sendall(str.encode(response))
         finally:
             self.client_connection.close()
 

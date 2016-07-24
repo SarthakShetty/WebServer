@@ -14,7 +14,6 @@ class wsgiapp:
         self.response_headers.append((name,value))
 
     def delegate(self):
-        print 'delegation start'
         path = self.environ['PATH_INFO']
         method = self.environ['REQUEST_METHOD']
         self.header('Content-type','text/plain')            
@@ -32,7 +31,7 @@ class wsgiapp:
         return self.notfound()
 
         
-class myyapp(wsgiapp):
+class myapp(wsgiapp):
     urls = [
         ("/", "index"),
         ("/hello/(.*)", "hello"),
@@ -52,5 +51,5 @@ class myyapp(wsgiapp):
         return "Not Found\n"
 
 def start_app(environ,start_response):
-    return application(environ,start_response).delegate()
+    return myapp(environ,start_response).delegate()
     
